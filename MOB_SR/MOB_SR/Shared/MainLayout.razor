@@ -1,0 +1,83 @@
+﻿@inherits LayoutComponentBase
+
+@inject MOB_SR.Startup.ThemeState ThemeState
+@inject NavigationManager UriHelper
+@inject IJSRuntime JSRuntime
+
+@if (Theme != "default.css" && Theme != "material.css" && Theme != "material-dark.css" && Theme != "fluent.css")
+{
+    <link href="_content/Radzen.Blazor/css/@(Theme)" rel="stylesheet" />
+}
+@if (Theme == "material.css" || Theme == "material-dark.css" || Theme == "fluent.css")
+{
+    <link href="css/themes/@(Theme)" rel="stylesheet" />
+}
+
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+<RadzenHeader>
+    <ChildContent>
+        <div class="row justify-content-start align-items-center">
+            <div class="col-6 d-flex align-items-center">
+                <RadzenSidebarToggle Click="@(args => { sidebarExpanded = !sidebarExpanded; bodyExpanded = !bodyExpanded; })">
+                </RadzenSidebarToggle>
+                <RadzenLabel Text="Lab">
+                </RadzenLabel>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end">
+                <label class="d-none d-sm-inline-block" style="margin-left: 1rem">Theme:</label>
+                <RadzenDropDown style="margin:0 .5rem" TValue="string" TextProperty="Text" ValueProperty="Value" Data="@themes" Value="@ThemeState.CurrentTheme" Change="@ChangeTheme" />
+            </div>
+        </div>
+    </ChildContent>
+</RadzenHeader>
+<div style="width:100%">
+    <RadzenBody @ref="@body0" @bind-Expanded="@bodyExpanded">
+        <ChildContent>
+            <RadzenContentContainer Name="main">
+                @Body
+            </RadzenContentContainer>
+        </ChildContent>
+    </RadzenBody>
+</div>
+<RadzenSidebar @ref="@sidebar0" @bind-Expanded="@sidebarExpanded" Style=" top: 51px; width: 250px; transform: translateX(0px);">
+    <ChildContent>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Path="/" />
+            <RadzenPanelMenuItem Text="Developer Page" Path="DevName" />
+        </RadzenPanelMenu>
+    </ChildContent>
+</RadzenSidebar>
+@code {
+    RadzenSidebar sidebar0;
+    RadzenBody body0;
+    bool sidebarExpanded = true;
+    bool bodyExpanded = false;
+
+    dynamic themes = new[]
+    {
+        new { Text = "Default", Value = "default"},
+        new { Text = "Dark", Value="dark" },
+        new { Text = "Software", Value = "software"},
+        new { Text = "Humanistic", Value = "humanistic" },
+        new { Text = "Material", Value = "material" },
+        new { Text = "Material Dark", Value = "material-dark" },
+        new { Text = "Fluent", Value = "fluent" }
+    };
+
+    string Theme
+    {
+        get
+        {
+            return $"{ThemeState.CurrentTheme}.css";
+        }
+    }
+
+    void ChangeTheme(object value)
+    {
+        ThemeState.CurrentTheme = value.ToString();
+        UriHelper.NavigateTo(UriHelper.ToAbsoluteUri(UriHelper.Uri).ToString());
+    }
+}
