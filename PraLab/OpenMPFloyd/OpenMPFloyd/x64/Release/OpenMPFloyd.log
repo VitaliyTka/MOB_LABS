@@ -1,0 +1,6 @@
+﻿  OpenMPFloyd.cpp
+  Generating code
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 13 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  OpenMPFloyd.vcxproj -> C:\Users\VITALIY\source\repos\OpenMPFloyd\x64\Release\OpenMPFloyd.exe
