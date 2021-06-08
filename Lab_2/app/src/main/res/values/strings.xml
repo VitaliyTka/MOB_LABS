@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lab_2</string>
+    <string-array name="BodyType">
+        <item>sedan</item>
+        <item>station wagon</item>
+        <item>pickup</item>
+        <item>hatchback</item>
+    </string-array>
+</resources>
